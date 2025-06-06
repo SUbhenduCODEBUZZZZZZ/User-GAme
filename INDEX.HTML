@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mock\styles.js" />
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gamified Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background: linear-gradient(to right, #dfe9f3, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      padding: 30px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #2196f3;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .stats p {
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="login" class="card">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="handleLogin()">Login</button>
+  </div>
+
+  <div id="dashboard" class="card hidden">
+    <h2>Welcome, <span id="username"></span></h2>
+    <div class="stats">
+      <p>XP: <span id="xp">0</span></p>
+      <p>Level: <span id="level">1</span></p>
+      <p>Streak: <span id="streak">1</span> days</p>
+      <p>Last Action: <span id="lastAction">N/A</span></p>
+    </div>
+
+    <h3>Mood Check-In</h3>
+    <input type="text" id="mood" placeholder="😊 😢 😎 or write something..." />
+    <button onclick="submitMood()">Submit</button>
+  </div>
+
+  <script>
+    const mockUser = {
+      email: 'test@example.com',
+      password: '123456',
+      displayName: 'Test User',
+    };
+
+    let userStats = {
+      xp: 1200,
+      level: 5,
+      streak: 3,
+      lastAction: '2025-06-05',
+    };
+
+    function handleLogin() {
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+
+      if (email === mockUser.email && pass === mockUser.password) {
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        document.getElementById('username').innerText = mockUser.displayName;
+        updateDashboard();
+      } else {
+        alert('Invalid credentials!');
+      }
+    }
+
+    function updateDashboard() {
+      document.getElementById('xp').innerText = userStats.xp;
+      document.getElementById('level').innerText = userStats.level;
+      document.getElementById('streak').innerText = userStats.streak;
+      document.getElementById('lastAction').innerText = userStats.lastAction;
+    }
+
+    function submitMood() {
+      const mood = document.getElementById('mood').value;
+      if (mood.trim() === '') return alert('Enter a mood!');
+      alert(`Mood recorded: ${mood}`);
+      
+      userStats.lastAction = new Date().toISOString().split('T')[0];
+      userStats.xp += 50;
+      if (userStats.xp >= 1000 + userStats.level * 100) {
+        userStats.level += 1;
+      }
+      userStats.streak += 1;
+      document.getElementById('mood').value = '';
+      updateDashboard();
+    }
+  </script>
+
+</body>
+</html>

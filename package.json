@@ -1,0 +1,14 @@
+{
+  "name": "user-game",
+  "version": "1.0.0",
+  "description": "GAME INTERPHASE",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react-glitch-effect": "^3.1.0"
+  }
+}
